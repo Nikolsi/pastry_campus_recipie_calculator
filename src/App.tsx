@@ -59,6 +59,16 @@ function App() {
     setItems([...items, newItem]);
   };
 
+  // Normalize digits without leading zeros
+  const normalizeDigitsNoLeadingZeros = (raw: string) => {
+    // keep only digits and decimal point
+    const cleaned = raw.replace(/[^\d.]/g, "");
+    if (cleaned === "" || cleaned === ".") return ""; // allow clearing the field
+    const num = parseFloat(cleaned);
+    if (isNaN(num)) return "";
+    return String(num); // removes leading zeros
+  };
+
   // Update grams for an item
   const updateGrams = (id: string, grams: number) => {
     setItems(
@@ -194,13 +204,20 @@ function App() {
                           {getDisplayName(item.ingredientName)}
                         </div>
                         <Input
-                          type="number"
+                          inputMode="numeric"
                           value={item.grams}
-                          onChange={(e) =>
-                            updateGrams(item.id, Number(e.target.value))
-                          }
-                          step="0.1"
+                          onChange={(e) => {
+                            const normalized = normalizeDigitsNoLeadingZeros(
+                              e.target.value
+                            );
+                            if (normalized === "") {
+                              updateGrams(item.id, 0);
+                              return;
+                            }
+                            updateGrams(item.id, Number(normalized));
+                          }}
                           min="0"
+                          step="1"
                           className="tabular-nums text-right"
                         />
                         <Button
@@ -224,13 +241,19 @@ function App() {
                           </div>
                           <div className="flex gap-2">
                             <Input
-                              type="number"
+                              inputMode="numeric"
                               value={item.grams}
-                              onChange={(e) =>
-                                updateGrams(item.id, Number(e.target.value))
-                              }
-                              step="0.1"
+                              onChange={(e) => {
+                                const normalized =
+                                  normalizeDigitsNoLeadingZeros(e.target.value);
+                                if (normalized === "") {
+                                  updateGrams(item.id, 0);
+                                  return;
+                                }
+                                updateGrams(item.id, Number(normalized));
+                              }}
                               min="0"
+                              step="1"
                               placeholder="Граммы"
                               className="tabular-nums"
                             />
