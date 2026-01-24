@@ -14,16 +14,11 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { IngredientCombobox } from "@/components/IngredientCombobox";
+import { CheckCircle2, XCircle } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 function App() {
   const [recipeType, setRecipeType] = useState<RecipeType>("HELADO");
@@ -97,95 +92,80 @@ function App() {
         </p>
       </div>
 
-      {/* Header Controls */}
-      <Card className="mb-4">
-        <CardHeader>
-          <CardTitle>Настройки рецепта</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-end flex-wrap">
-            <div className="w-full sm:w-auto">
-              <Label htmlFor="recipeType">Тип рецепта</Label>
-              <Select
-                value={recipeType}
-                onValueChange={(value) => setRecipeType(value as RecipeType)}
-              >
-                <SelectTrigger id="recipeType" className="w-full sm:w-[180px]">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="HELADO">Мороженое</SelectItem>
-                  <SelectItem value="SORBETE">Сорбет</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="w-full sm:w-auto">
-              <Label htmlFor="batchKg">Партия (кг)</Label>
-              <Input
-                id="batchKg"
-                type="number"
-                value={batchKg}
-                onChange={(e) => setBatchKg(Number(e.target.value))}
-                step="0.1"
-                min="0"
-                className="w-full sm:w-[120px]"
-              />
-            </div>
-
-            <div className="flex gap-2 flex-wrap">
-              <Button
-                onClick={() => setItems(normalizeTo1000(items))}
-                variant="secondary"
-              >
-                Нормализовать до 1000г
-              </Button>
-              <Button
-                onClick={() => setItems(scaleToKg(items, batchKg))}
-                variant="secondary"
-              >
-                Применить партию
-              </Button>
-              <Button onClick={() => setItems([])} variant="destructive">
-                Очистить
-              </Button>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
         {/* Left Column */}
         <div className="space-y-4">
-          {/* Ingredient Picker */}
+          {/* Step 1: Recipe Type */}
           <Card>
             <CardHeader>
-              <CardTitle>Добавить ингредиенты</CardTitle>
+              <CardTitle className="text-base sm:text-lg">
+                Шаг 1 — Выберите тип
+              </CardTitle>
               <CardDescription>
-                Поиск и выбор ингредиентов для рецепта
+                Выберите тип рецепта для настройки диапазонов валидации
               </CardDescription>
             </CardHeader>
             <CardContent>
+              <div className="grid grid-cols-2 gap-3">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setRecipeType("HELADO")}
+                  className={cn(
+                    "h-12 text-base",
+                    recipeType === "HELADO" &&
+                      "bg-black text-white hover:bg-black/90 border-black"
+                  )}
+                >
+                  Мороженое
+                </Button>
+
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setRecipeType("SORBETE")}
+                  className={cn(
+                    "h-12 text-base",
+                    recipeType === "SORBETE" &&
+                      "bg-black text-white hover:bg-black/90 border-black"
+                  )}
+                >
+                  Сорбет
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Step 2: Add Ingredients & Recipe */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base sm:text-lg">
+                Шаг 2 — Добавьте ингредиенты
+              </CardTitle>
+              <CardDescription>
+                Используйте поиск для быстрого добавления ингредиентов
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
               <IngredientCombobox
                 ingredients={ingredients}
                 onSelect={addIngredientByName}
                 placeholder="Выберите ингредиент..."
                 addedIngredientNames={items.map((item) => item.ingredientName)}
               />
-            </CardContent>
-          </Card>
 
-          {/* Recipe Items */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Рецепт</CardTitle>
-              <CardDescription>
-                {items.length === 0
-                  ? "Ингредиенты еще не добавлены"
-                  : `${items.length} ингредиентов`}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
+              {items.length > 0 && (
+                <>
+                  <div className="flex items-center justify-between">
+                    <Separator className="flex-1" />
+                    <span className="text-xs text-muted-foreground px-3">
+                      Добавлено ингредиентов: {items.length}
+                    </span>
+                    <Separator className="flex-1" />
+                  </div>
+                </>
+              )}
+
               {items.length === 0 ? (
                 <div className="text-center py-8 space-y-2">
                   <p className="text-sm text-muted-foreground">
@@ -274,10 +254,71 @@ function App() {
 
         {/* Right Column */}
         <div className="space-y-4">
+          {/* Step 3: Validation */}
+          <Card>
+            <CardHeader>
+              <div className="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between">
+                <div className="min-w-0">
+                  <CardTitle className="text-base sm:text-lg">
+                    Шаг 3 — Проверьте баланс
+                  </CardTitle>
+                  <CardDescription>
+                    {items.length === 0
+                      ? "Валидация начнется после добавления ингредиентов"
+                      : totals.totalG === 0 ||
+                          Math.abs(totals.totalG - 1000) > 50
+                        ? "Для корректной оценки диапазонов рекомендуется нормализовать до 1000 г (см. Экспериментальные инструменты)"
+                        : "Все параметры проверяются на соответствие стандартам"}
+                  </CardDescription>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent>
+              {items.length === 0 ? (
+                <div className="text-center py-8 text-sm text-muted-foreground">
+                  Добавьте ингредиенты для проверки баланса рецепта
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  {validation.checks.map((check) => (
+                    <div
+                      key={check.key}
+                      className={cn(
+                        "rounded-lg px-3 py-2",
+                        check.ok ? "bg-emerald-50/40" : "bg-rose-50/40"
+                      )}
+                    >
+                      <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                        <div className="flex items-start gap-2 min-w-0">
+                          {check.ok ? (
+                            <CheckCircle2 className="h-4 w-4 mt-0.5 text-emerald-600 shrink-0" />
+                          ) : (
+                            <XCircle className="h-4 w-4 mt-0.5 text-rose-600 shrink-0" />
+                          )}
+                          <div className="min-w-0">
+                            <div className="font-medium leading-5 break-words">
+                              {check.label}
+                            </div>
+                            <div className="text-sm text-muted-foreground">
+                              Факт: {check.actual}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="text-sm text-muted-foreground sm:text-right break-words">
+                          Ожидание: {check.expected}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
           {/* Totals */}
           <Card>
             <CardHeader>
-              <CardTitle>Итоги</CardTitle>
+              <CardTitle className="text-base sm:text-lg">Итоги</CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
               <div className="flex justify-between">
@@ -301,49 +342,56 @@ function App() {
               </div>
             </CardContent>
           </Card>
-
-          {/* Validation */}
-          <Card>
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle>Валидация</CardTitle>
-                <Badge
-                  variant={validation.overallOk ? "default" : "destructive"}
-                >
-                  {validation.overallOk
-                    ? "✅ Все в пределах"
-                    : `❌ Отклонения: ${validation.checks.filter((c) => !c.ok).length}`}
-                </Badge>
-              </div>
-              <CardDescription className="text-xs">
-                Рекомендуется нормализовать до 1000 г перед оценкой диапазонов
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                {validation.checks.map((check) => (
-                  <div key={check.key} className="space-y-1">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium">{check.label}</span>
-                      <Badge
-                        variant={check.ok ? "outline" : "destructive"}
-                        className="text-xs"
-                      >
-                        {check.ok ? "✅" : "❌"}
-                      </Badge>
-                    </div>
-                    <div className="flex justify-between text-xs text-muted-foreground">
-                      <span>Факт: {check.actual}</span>
-                      <span>Ожидание: {check.expected}</span>
-                    </div>
-                    <Separator />
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
         </div>
       </div>
+
+      {/* Experimental Tools */}
+      <Card className="mt-4 border-amber-200 bg-amber-50">
+        <CardHeader className="pb-3">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <CardTitle className="text-base sm:text-lg">
+              Экспериментальные инструменты
+            </CardTitle>
+            <Badge variant="secondary" className="w-fit">
+              Experimental
+            </Badge>
+          </div>
+          <CardDescription>
+            Инструменты могут измениться в будущих версиях
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="flex flex-col gap-3 sm:flex-row sm:items-end">
+          <Button
+            onClick={() => setItems(normalizeTo1000(items))}
+            variant="secondary"
+            disabled={items.length === 0}
+          >
+            Нормализовать до 1000 г
+          </Button>
+
+          <div className="flex gap-2 items-end">
+            <div className="grid gap-1">
+              <Label htmlFor="batchKg">Партия (кг)</Label>
+              <Input
+                id="batchKg"
+                type="number"
+                value={batchKg}
+                onChange={(e) => setBatchKg(Number(e.target.value))}
+                step="0.1"
+                min="0"
+                className="w-full sm:w-32"
+              />
+            </div>
+            <Button
+              onClick={() => setItems(scaleToKg(items, batchKg))}
+              variant="outline"
+              disabled={items.length === 0 || batchKg <= 0}
+            >
+              Применить партию
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }
