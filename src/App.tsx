@@ -114,8 +114,8 @@ function App() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="HELADO">HELADO</SelectItem>
-                  <SelectItem value="SORBETE">SORBETE</SelectItem>
+                  <SelectItem value="HELADO">Мороженое</SelectItem>
+                  <SelectItem value="SORBETE">Сорбет</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -187,9 +187,14 @@ function App() {
             </CardHeader>
             <CardContent>
               {items.length === 0 ? (
-                <p className="text-sm text-muted-foreground text-center py-8">
-                  Выберите ингредиенты из списка выше
-                </p>
+                <div className="text-center py-8 space-y-2">
+                  <p className="text-sm text-muted-foreground">
+                    Начните с выбора ингредиентов из выпадающего списка выше
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    Введите количество в граммах для каждого ингредиента
+                  </p>
+                </div>
               ) : (
                 <div className="space-y-2">
                   {/* Desktop view */}
@@ -276,21 +281,21 @@ function App() {
             </CardHeader>
             <CardContent className="space-y-2">
               <div className="flex justify-between">
-                <span className="text-sm font-medium">Всего:</span>
-                <span className="tabular-nums">
+                <span className="text-sm">Всего:</span>
+                <span className="tabular-nums font-semibold">
                   {totals.totalG.toFixed(2)} г
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-sm font-medium">Эквалайзер:</span>
-                <span className="tabular-nums">
+                <span className="text-sm">Эквалайзер:</span>
+                <span className="tabular-nums font-semibold">
                   {totals.equalizer.toFixed(2)} г
                 </span>
               </div>
               <Separator />
               <div className="flex justify-between text-sm text-muted-foreground">
                 <span>Температура подачи:</span>
-                <span className="tabular-nums">
+                <span className="tabular-nums font-semibold">
                   {totals.tempServeC.toFixed(2)}°C
                 </span>
               </div>
@@ -307,7 +312,7 @@ function App() {
                 >
                   {validation.overallOk
                     ? "✅ Все в пределах"
-                    : "❌ Есть отклонения"}
+                    : `❌ Отклонения: ${validation.checks.filter((c) => !c.ok).length}`}
                 </Badge>
               </div>
               <CardDescription className="text-xs">
