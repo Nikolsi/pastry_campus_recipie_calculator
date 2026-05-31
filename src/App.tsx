@@ -16,17 +16,17 @@ function App() {
   const [items, setItems] = useState<LineItem[]>([]);
   const [batchKg, setBatchKg] = useState<number>(1);
 
-  const ingredientByName = useMemo(() => {
-    const map = new Map<string, Ingredient>();
+  const ingredientById = useMemo(() => {
+    const map = new Map<number, Ingredient>();
     ingredients.forEach((ing) => {
-      map.set(ing.name, ing);
+      map.set(ing.id, ing);
     });
     return map;
   }, []);
 
   const totals = useMemo(
-    () => computeTotals(items, ingredientByName),
-    [items, ingredientByName]
+    () => computeTotals(items, ingredientById),
+    [items, ingredientById]
   );
 
   const validation = useMemo(
@@ -34,13 +34,13 @@ function App() {
     [totals, recipeType]
   );
 
-  const addIngredientByName = (ingredientName: string) => {
+  const addIngredientById = (ingredientId: number) => {
     setItems((currentItems) => {
-      if (currentItems.some((item) => item.ingredientName === ingredientName)) {
+      if (currentItems.some((item) => item.ingredientId === ingredientId)) {
         return currentItems;
       }
 
-      return [...currentItems, createRecipeLineItem(ingredientName)];
+      return [...currentItems, createRecipeLineItem(ingredientId)];
     });
   };
 
@@ -58,9 +58,9 @@ function App() {
     setItems((currentItems) => currentItems.filter((item) => item.id !== id));
   };
 
-  const getDisplayName = (ingredientName: string): string => {
-    const ing = ingredientByName.get(ingredientName);
-    return ing ? (ing.name_ru ?? ing.name) : ingredientName;
+  const getDisplayName = (ingredientId: number): string => {
+    const ing = ingredientById.get(ingredientId);
+    return ing ? (ing.name_ru ?? ing.name) : `Ingredient #${ingredientId}`;
   };
 
   return (
@@ -85,7 +85,7 @@ function App() {
             ingredients={ingredients}
             items={items}
             getDisplayName={getDisplayName}
-            onAddIngredient={addIngredientByName}
+            onAddIngredient={addIngredientById}
             onUpdateGrams={updateGrams}
             onRemoveItem={removeItem}
           />

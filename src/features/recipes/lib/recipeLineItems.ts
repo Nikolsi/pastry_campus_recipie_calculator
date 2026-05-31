@@ -8,10 +8,10 @@ function createClientId(): string {
   return `${Date.now()}-${Math.random()}`;
 }
 
-export function createRecipeLineItem(ingredientName: string): LineItem {
+export function createRecipeLineItem(ingredientId: number): LineItem {
   return {
     id: createClientId(),
-    ingredientName,
+    ingredientId,
     grams: 0,
   };
 }
@@ -31,4 +31,3 @@ export function normalizeRecipeNumberInput(raw: string): string {
 
   return String(value);
 }
-

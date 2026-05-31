@@ -43,7 +43,7 @@ export function scaleToKg(items: LineItem[], kg: number): LineItem[] {
  */
 export function computeTotals(
     items: LineItem[],
-    ingredientByName: Map<string, Ingredient>
+    ingredientById: Map<number, Ingredient>
 ): Totals {
     let sugarsG = 0;
     let fatG = 0;
@@ -60,7 +60,7 @@ export function computeTotals(
         const grams = num(item.grams);
         if (grams <= 0) continue;
 
-        const ingredient = ingredientByName.get(item.ingredientName);
+        const ingredient = ingredientById.get(item.ingredientId);
         if (!ingredient) continue; // skip unknown ingredient entirely
 
         totalG += grams;

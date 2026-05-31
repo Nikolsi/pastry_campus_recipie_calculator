@@ -8,6 +8,7 @@ Last updated: 2026-05-31
 - The codebase now has agent-facing docs in `AGENTS.md` and `docs/`.
 - The recipe screen has been split from one large `App.tsx` into
   `src/features/recipes/components`.
+- Recipe line items now reference ingredients by stable `ingredientId`.
 - The calculation engine remains in `src/calc` and was not behaviorally changed.
 - `npm run lint` passes.
 - `npm run build` passes.
@@ -42,7 +43,7 @@ over HTTP.
 1. Start the dev server.
 2. Open `http://127.0.0.1:5173/` in the in-app browser.
 3. Smoke test desktop and mobile viewports.
-4. Then convert recipe lines from `ingredientName` to a stable `ingredientId`.
+4. Add a test runner and calculator unit tests.
 
 ## Watch Outs
 

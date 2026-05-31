@@ -20,9 +20,9 @@ import type { Ingredient } from "@/domain/types";
 
 interface IngredientComboboxProps {
   ingredients: Ingredient[];
-  onSelect: (ingredientName: string) => void;
+  onSelect: (ingredientId: number) => void;
   placeholder?: string;
-  addedIngredientNames?: string[];
+  addedIngredientIds?: number[];
 }
 
 function useIsMobile() {
@@ -47,7 +47,7 @@ export function IngredientCombobox({
   ingredients,
   onSelect,
   placeholder = "Выберите ингредиент...",
-  addedIngredientNames = [],
+  addedIngredientIds = [],
 }: IngredientComboboxProps) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
@@ -82,10 +82,14 @@ export function IngredientCombobox({
   }, [ingredients, search]);
 
   const handleSelect = (currentValue: string) => {
+    const ingredientId = Number(currentValue);
+    if (!Number.isFinite(ingredientId)) {
+      return;
+    }
+
     setValue(currentValue === value ? "" : currentValue);
     setOpen(false);
-    onSelect(currentValue);
-    // Reset search after selection
+    onSelect(ingredientId);
     setSearch("");
   };
 
@@ -106,12 +110,12 @@ export function IngredientCombobox({
             const displayName = ingredient.name_ru ?? ingredient.name;
             const showSpanishName =
               ingredient.name_ru && ingredient.name !== ingredient.name_ru;
-            const isAdded = addedIngredientNames.includes(ingredient.name);
+            const isAdded = addedIngredientIds.includes(ingredient.id);
 
             return (
               <CommandItem
                 key={ingredient.id}
-                value={ingredient.name}
+                value={String(ingredient.id)}
                 onSelect={handleSelect}
                 disabled={isAdded}
                 className={cn(

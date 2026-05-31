@@ -4,6 +4,7 @@
 
 - Fix build/lint as the baseline quality gate.
 - Extract recipe editor, totals, validation, and tools from `App.tsx`.
+- Store recipe line items by stable ingredient ID in the client.
 - Add unit tests for calculation and validation.
 - Add basic PWA metadata.
 - Replace template README with product-specific setup notes.
@@ -43,4 +44,3 @@
 - Move calculator-specific metrics, ranges, and UI panels behind calculator
   definitions.
 - Add chocolate calculator only after the ice cream data model is stable.
-

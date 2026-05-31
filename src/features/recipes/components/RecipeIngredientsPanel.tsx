@@ -17,8 +17,8 @@ import { normalizeRecipeNumberInput } from "@/features/recipes/lib/recipeLineIte
 interface RecipeIngredientsPanelProps {
   ingredients: Ingredient[];
   items: LineItem[];
-  getDisplayName: (ingredientName: string) => string;
-  onAddIngredient: (ingredientName: string) => void;
+  getDisplayName: (ingredientId: number) => string;
+  onAddIngredient: (ingredientId: number) => void;
   onUpdateGrams: (id: string, grams: number) => void;
   onRemoveItem: (id: string) => void;
 }
@@ -51,7 +51,7 @@ export function RecipeIngredientsPanel({
           ingredients={ingredients}
           onSelect={onAddIngredient}
           placeholder="Выберите ингредиент..."
-          addedIngredientNames={items.map((item) => item.ingredientName)}
+          addedIngredientIds={items.map((item) => item.ingredientId)}
         />
 
         {items.length > 0 && (
@@ -88,7 +88,7 @@ export function RecipeIngredientsPanel({
                   className="grid grid-cols-[1fr_120px_48px] gap-2 items-center py-1"
                 >
                   <div className="text-sm truncate">
-                    {getDisplayName(item.ingredientName)}
+                    {getDisplayName(item.ingredientId)}
                   </div>
                   <Input
                     inputMode="numeric"
@@ -119,7 +119,7 @@ export function RecipeIngredientsPanel({
                   className="rounded-md border bg-background p-3 space-y-2"
                 >
                   <div className="font-medium text-sm">
-                    {getDisplayName(item.ingredientName)}
+                    {getDisplayName(item.ingredientId)}
                   </div>
                   <div className="grid grid-cols-[1fr_44px] gap-2">
                     <Input
@@ -151,4 +151,3 @@ export function RecipeIngredientsPanel({
     </Card>
   );
 }
-

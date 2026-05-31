@@ -16,7 +16,7 @@ export interface Ingredient {
 
 export interface LineItem {
     id: string;
-    ingredientName: string;
+    ingredientId: number;
     grams: number;
 }
 

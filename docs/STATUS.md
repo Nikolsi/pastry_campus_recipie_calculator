@@ -11,6 +11,8 @@ Last updated: 2026-05-31
 - Production build passes.
 - `src/App.tsx` has been reduced to a feature container.
 - Recipe screen UI is split into feature components under `src/features/recipes`.
+- Recipe line items now store stable `ingredientId` values instead of
+  ingredient names.
 - Current lint baseline passes.
 
 ## Doing
@@ -22,11 +24,10 @@ Last updated: 2026-05-31
 
 ## Next
 
-1. Move recipe lines from `ingredientName` to stable `ingredientId`.
-2. Add a test runner and calculator unit tests.
-3. Add PWA manifest and app metadata.
-4. Add database migrations and seed current ingredients.
-5. Add Telegram Mini App auth handshake via a backend endpoint.
+1. Add a test runner and calculator unit tests.
+2. Add PWA manifest and app metadata.
+3. Add database migrations and seed current ingredients.
+4. Add Telegram Mini App auth handshake via a backend endpoint.
 
 ## Blocked
 
