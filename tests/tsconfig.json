@@ -1,0 +1,7 @@
+{
+  "extends": "../tsconfig.test.json",
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "include": ["../src/calc/**/*.ts", "../src/domain/**/*.ts", "./**/*.ts"]
+}

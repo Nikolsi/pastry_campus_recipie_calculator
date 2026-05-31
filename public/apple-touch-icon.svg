@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" role="img" aria-labelledby="title desc">
+  <title id="title">MiseLab touch icon</title>
+  <desc id="desc">A monogram M inside a rounded square.</desc>
+  <rect width="180" height="180" rx="40" fill="#111827"/>
+  <path fill="#f8fafc" d="M45 126V54h19l26 42 26-42h19v72h-17V82l-21 35H83L62 82v44H45Z"/>
+  <path fill="#f59e0b" d="M45 137h90v9H45z"/>
+</svg>

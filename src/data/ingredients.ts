@@ -1,4 +1,5 @@
 import type { Ingredient } from '../domain/types';
+import { toComponentIngredients } from '../domain/ingredientProfiles';
 import ingredientsData from './ingredients.json';
 
 // Runtime validation
@@ -15,6 +16,12 @@ ingredientsData.forEach((ingredient, index) => {
 
 export const ingredients: Ingredient[] = ingredientsData;
 
+export const componentIngredients = toComponentIngredients(ingredients);
+
 export const ingredientByName = new Map<string, Ingredient>(
     ingredients.map((i) => [i.name, i])
+);
+
+export const ingredientById = new Map<number, Ingredient>(
+    ingredients.map((i) => [i.id, i])
 );
