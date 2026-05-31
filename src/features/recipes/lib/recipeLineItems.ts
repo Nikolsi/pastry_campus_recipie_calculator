@@ -8,7 +8,7 @@ function createClientId(): string {
   return `${Date.now()}-${Math.random()}`;
 }
 
-export function createRecipeLineItem(ingredientId: number): LineItem {
+export function createRecipeLineItem(ingredientId: string): LineItem {
   return {
     id: createClientId(),
     ingredientId,

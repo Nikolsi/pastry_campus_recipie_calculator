@@ -9,7 +9,7 @@ import {
 import type { Ingredient, LineItem } from "../src/domain/types.js";
 
 const water: Ingredient = {
-  id: 1,
+  id: "1",
   name: "Water",
   fat: 0,
   lactose: 0,
@@ -23,7 +23,7 @@ const water: Ingredient = {
 };
 
 const sucrose: Ingredient = {
-  id: 2,
+  id: "2",
   name: "Sucrose",
   fat: 0,
   lactose: 0,
@@ -37,7 +37,7 @@ const sucrose: Ingredient = {
 };
 
 const cream: Ingredient = {
-  id: 3,
+  id: "3",
   name: "Cream",
   fat: 35,
   lactose: 3,
@@ -125,7 +125,7 @@ test("computeTotals uses ingredient values per 100 grams", () => {
 test("computeTotals skips unknown ingredient IDs", () => {
   const items: LineItem[] = [
     { id: "known", ingredientId: cream.id, grams: 100 },
-    { id: "unknown", ingredientId: 999, grams: 100 },
+    { id: "unknown", ingredientId: "999", grams: 100 },
   ];
 
   const totals = computeTotals(items, ingredientById);
@@ -135,4 +135,3 @@ test("computeTotals skips unknown ingredient IDs", () => {
   assert.equal(totals.waterG, 60);
   assert.equal(totals.equalizer, 900);
 });
-
