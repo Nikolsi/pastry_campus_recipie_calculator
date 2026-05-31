@@ -22,14 +22,24 @@ Last updated: 2026-05-31
 - Prepare the app structure for database-backed ingredients, accounts, and
   saved recipes.
 - Keep mobile and Telegram Mini App usage as first-class constraints.
+- Keep the MVP focused on culinary/pastry schools as the first customer
+  segment.
+- Keep the domain open to broader culinary calculators beyond pastry: dough,
+  pizza, sourdough, bakery formulas, nutrition, costing, and exports.
+- Preserve long-term AI/API optionality with stable IDs, metric codes,
+  calculator modules, and versioned snapshots. This is not MVP scope.
+- Preserve RecipeHub optionality: recipe versions, imports, collections/books,
+  access policies, monetization, and export artifacts. This is not MVP scope.
 
 ## Next
 
-1. Review ingredient required/optional fields before database migrations.
-2. Add PWA manifest and app metadata.
-3. Add database migrations and seed current ingredients.
-4. Add Telegram Mini App auth handshake via a backend endpoint.
-5. Add browser/e2e coverage once Browser or Playwright is available.
+1. Keep school MVP scope documented while architecture stays extensible.
+2. Review calculator module/profile model before database migrations.
+3. Review ingredient required/optional fields before database migrations.
+4. Add PWA manifest and app metadata.
+5. Add database migrations and seed current ingredients.
+6. Add Telegram Mini App auth handshake via a backend endpoint.
+7. Add browser/e2e coverage once Browser or Playwright is available.
 
 ## Blocked
 

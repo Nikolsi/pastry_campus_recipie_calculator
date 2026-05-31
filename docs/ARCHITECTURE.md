@@ -7,6 +7,13 @@ first calculator is for ice cream formulation. Students should be able to open
 it from Telegram, install it as a PWA, calculate recipes, and learn why a recipe
 is balanced or not.
 
+The long-term product is a multi-calculator culinary platform, not a single
+hard-coded ice cream calculator. See `docs/CALCULATOR_PLATFORM.md` for the
+platform model: ice cream, chocolate bars, molded chocolate bonbons, praline
+fillings, dough, pizza, sourdough, costing, nutrition, and report exports should
+share a stable recipe/ingredient core while keeping calculator-specific metrics
+pluggable.
+
 ## Current Client
 
 ```text
@@ -42,6 +49,23 @@ src/
 
 Keep `calc` independent from React, network calls, Supabase, Telegram, and
 browser storage.
+
+Future calculator modules should be introduced behind module boundaries instead
+of adding all possible fields to the global recipe or ingredient types.
+
+The long-term API should also be machine-readable enough for AI services and
+external tools. See `docs/AI_API_VISION.md`; this is not MVP scope, but it
+reinforces the need for stable IDs, metric codes, module boundaries, and
+versioned calculation snapshots.
+
+The broader product can evolve into a RecipeHub for importing, designing,
+organizing, monetizing, and exporting recipes. See `docs/RECIPE_HUB_VISION.md`.
+This reinforces recipe versions, source metadata, collections/books, access
+policies, and export artifacts as long-term domain concepts.
+
+The go-to-market focus remains culinary/pastry schools first. See
+`docs/GO_TO_MARKET.md`; broad platform ideas should shape foundations without
+pulling the MVP away from classroom workflows.
 
 ## Backend Direction
 

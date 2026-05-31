@@ -4,6 +4,10 @@ The current `Ingredient` interface is shaped by the static calculator dataset.
 Before creating production database migrations, review which fields are truly
 required and which should be optional, derived, or calculator-specific.
 
+This review must account for future calculator modules: ice cream, chocolate
+bars, molded chocolate bonbons, praline fillings, dough, pizza, sourdough,
+nutrition, costing, and export reports. See `docs/CALCULATOR_PLATFORM.md`.
+
 ## Current Frontend Fields
 
 ```ts
@@ -73,8 +77,7 @@ reviewed before becoming globally required DB columns:
 
 ## Database Design Direction
 
-Prefer a small core `ingredients` table plus calculator-specific nutrition
-profiles:
+Prefer a small core `ingredients` table plus optional profiles:
 
 ```text
 ingredients
@@ -85,23 +88,23 @@ ingredients
   ownership fields
   metadata
 
-ingredient_nutrition_profiles
+ingredient_profiles
   ingredient_id
-  calculator_type
-  water
-  solids
-  sugars
-  fat
-  protein
-  lactose
-  pod
-  pac
-  cocoa_nf
-  extra jsonb
+  profile_type
+  values jsonb
 ```
 
-For the first migration, it is acceptable to keep nutrient fields as columns on
-`ingredients` if speed matters, but avoid making future-only fields mandatory.
+Example profile types:
+
+- `nutrition`
+- `ice_cream`
+- `cost`
+- `chocolate`
+- `dough`
+
+For the first migration, avoid making ice-cream-only fields mandatory on the
+core ingredient record. If speed matters, strongly typed frontend helpers can
+still adapt profile JSON into TypeScript objects.
 
 ## Pre-Migration Tasks
 
@@ -111,4 +114,5 @@ For the first migration, it is acceptable to keep nutrient fields as columns on
 - Add seed transformation from `src/data/ingredients.json`.
 - Add tests for missing optional fields before relaxing frontend types.
 - Update `Ingredient` type to distinguish core identity from ice cream profile.
-
+- Decide profile type names and which profile is required by the MVP ice cream
+  calculator.

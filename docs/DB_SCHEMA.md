@@ -7,6 +7,28 @@ Before turning this draft into migrations, review
 the static ice cream calculator dataset; not every nutrient or calculator field
 should necessarily become a required database column.
 
+Also review `docs/CALCULATOR_PLATFORM.md`. The schema should support multiple
+culinary calculator modules, metric definitions, optional ingredient profiles,
+costing, and report/export snapshots.
+
+## Platform Direction
+
+Avoid a single wide `ingredients` table with every possible technical field.
+Prefer:
+
+- `ingredients` for identity, ownership, translations, and metadata.
+- `ingredient_profiles` for calculator-specific or nutrition/cost profiles.
+- `calculator_modules` for ice cream, chocolate bars, molded chocolates,
+  praline fillings, dough, pizza, sourdough, and future calculators.
+- `metric_definitions` for values that calculators can compute or validate.
+- `validation_rules` tied to recipe type and metric.
+- `calculation_snapshots` for versioned results used by reports/exports.
+
+Long term, RecipeHub features may add recipe versions, recipe sources,
+collections/books, import jobs, access policies, and export artifacts. See
+`docs/RECIPE_HUB_VISION.md`; these should be separate from calculator-specific
+logic.
+
 ## Core Tables
 
 ```sql
@@ -37,37 +59,62 @@ create table ingredients (
   scope text not null default 'system' check (scope in ('system', 'school', 'user')),
   school_id uuid references schools(id),
   created_by uuid references auth.users(id),
-  sugars numeric not null default 0,
-  fat numeric not null default 0,
-  protein numeric not null default 0,
-  lactose numeric not null default 0,
-  solids numeric not null default 0,
-  water numeric not null default 0,
-  pod numeric not null default 0,
-  pac numeric not null default 0,
-  cocoa_nf numeric not null default 0,
+  metadata jsonb not null default '{}'::jsonb,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
 
+create table calculator_modules (
+  id uuid primary key default gen_random_uuid(),
+  code text unique not null,
+  title text not null,
+  status text not null default 'draft'
+    check (status in ('draft', 'active', 'archived')),
+  created_at timestamptz not null default now()
+);
+
+create table ingredient_profiles (
+  id uuid primary key default gen_random_uuid(),
+  ingredient_id uuid not null references ingredients(id) on delete cascade,
+  profile_type text not null,
+  values jsonb not null default '{}'::jsonb,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  unique (ingredient_id, profile_type)
+);
+
 create table recipe_types (
   id uuid primary key default gen_random_uuid(),
+  calculator_module_id uuid references calculator_modules(id),
   code text unique not null,
   title text not null,
   created_at timestamptz not null default now()
 );
 
+create table metric_definitions (
+  id uuid primary key default gen_random_uuid(),
+  calculator_module_id uuid references calculator_modules(id),
+  code text not null,
+  label text not null,
+  unit text,
+  value_type text not null default 'number'
+    check (value_type in ('number', 'percent', 'currency', 'text')),
+  sort_order integer not null default 0,
+  unique (calculator_module_id, code)
+);
+
 create table validation_rules (
   id uuid primary key default gen_random_uuid(),
   recipe_type_id uuid not null references recipe_types(id) on delete cascade,
-  metric text not null,
+  metric_definition_id uuid references metric_definitions(id),
+  metric_code text not null,
   rule_type text not null check (rule_type in ('range', 'max', 'target')),
   min_value numeric,
   max_value numeric,
   target_value numeric,
   tolerance numeric,
   sort_order integer not null default 0,
-  unique (recipe_type_id, metric)
+  unique (recipe_type_id, metric_code)
 );
 
 create table recipes (
@@ -95,8 +142,21 @@ create table calculation_snapshots (
   id uuid primary key default gen_random_uuid(),
   recipe_id uuid not null references recipes(id) on delete cascade,
   formula_version text not null,
+  calculator_module_code text not null,
   totals jsonb not null,
   validation jsonb not null,
+  created_at timestamptz not null default now()
+);
+
+create table ingredient_price_entries (
+  id uuid primary key default gen_random_uuid(),
+  ingredient_id uuid not null references ingredients(id) on delete cascade,
+  school_id uuid references schools(id),
+  currency text not null default 'EUR',
+  price numeric not null,
+  package_grams numeric,
+  valid_from date,
+  created_by uuid references auth.users(id),
   created_at timestamptz not null default now()
 );
 ```
