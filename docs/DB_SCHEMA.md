@@ -29,6 +29,10 @@ collections/books, import jobs, access policies, and export artifacts. See
 `docs/RECIPE_HUB_VISION.md`; these should be separate from calculator-specific
 logic.
 
+The frontend currently exposes an adapter from static ice cream ingredients to
+core + profile records in `src/domain/ingredientProfiles.ts`. Use that as the
+starting point for database seed scripts.
+
 ## Core Tables
 
 ```sql

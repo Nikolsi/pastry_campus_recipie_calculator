@@ -34,9 +34,11 @@ export interface IngredientCore {
     names?: LocalizedName[];
 }
 
+export type IngredientProfileValues = Record<string, string | number | boolean | undefined>;
+
 export interface IngredientProfile<TProfileType extends IngredientProfileType = IngredientProfileType> {
     type: TProfileType;
-    values: Record<string, string | number | boolean | undefined>;
+    values: IngredientProfileValues;
 }
 
 export interface IceCreamProfile {
@@ -100,6 +102,11 @@ export interface MetricDefinition {
 }
 
 export type Ingredient = IngredientCore & IceCreamProfile;
+
+export interface ComponentIngredient {
+    core: IngredientCore;
+    profiles: IngredientProfile[];
+}
 
 export interface LineItem {
     id: string;

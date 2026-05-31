@@ -21,6 +21,9 @@ Last updated: 2026-05-31
   metric definitions, ingredient core data, and optional profiles.
 - Current `Ingredient` remains a compatibility type for ice cream ingredients:
   `IngredientCore & IceCreamProfile`.
+- Static ingredients can now be adapted into `IngredientCore` plus `ice_cream`
+  and `nutrition` profile records.
+- Unit tests now cover the ingredient profile adapter.
 - Current lint baseline passes.
 
 ## Doing

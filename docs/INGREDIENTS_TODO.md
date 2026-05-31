@@ -112,6 +112,7 @@ still adapt profile JSON into TypeScript objects.
 - Decide if custom ingredients can be saved with incomplete data.
 - Decide validation behavior for missing nutrient values.
 - Add seed transformation from `src/data/ingredients.json`.
+  Initial frontend adapter exists in `src/domain/ingredientProfiles.ts`.
 - Add tests for missing optional fields before relaxing frontend types.
 - Update `Ingredient` type to distinguish core identity from ice cream profile.
   Initial frontend component/profile types are now in place.

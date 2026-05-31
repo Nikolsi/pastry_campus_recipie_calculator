@@ -37,6 +37,10 @@ tests.
 - `validateTotals` accepts a balanced helado profile.
 - `validateTotals` reports out-of-range helado metrics.
 - `validateTotals` applies sorbet-specific max rules.
+- Ingredient profile adapter extracts core identity, ice cream profile, and
+  nutrition profile values.
+- Ingredient profile adapter can rebuild the current compatibility `Ingredient`
+  shape from core + ice cream profile.
 
 ## Needed Tests
 
@@ -45,8 +49,7 @@ tests.
 - Ingredient selector should keep duplicate prevention when using IDs.
 - Mobile drawer interaction needs browser/e2e coverage once Browser or
   Playwright is available.
-- Add tests for profile adapters once static ingredients are converted into
-  core + profile data.
+- Add tests for full JSON seed export once database migrations exist.
 
 ## Manual Mobile Checks
 
