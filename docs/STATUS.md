@@ -13,6 +13,7 @@ Last updated: 2026-05-31
 - Recipe screen UI is split into feature components under `src/features/recipes`.
 - Recipe line items now store stable `ingredientId` values instead of
   ingredient names.
+- Unit tests cover core calculation and validation behavior.
 - Current lint baseline passes.
 
 ## Doing
@@ -24,10 +25,11 @@ Last updated: 2026-05-31
 
 ## Next
 
-1. Add a test runner and calculator unit tests.
+1. Review ingredient required/optional fields before database migrations.
 2. Add PWA manifest and app metadata.
 3. Add database migrations and seed current ingredients.
 4. Add Telegram Mini App auth handshake via a backend endpoint.
+5. Add browser/e2e coverage once Browser or Playwright is available.
 
 ## Blocked
 
@@ -38,7 +40,7 @@ Last updated: 2026-05-31
 
 ## Handoff Notes
 
-- Last green checks: `npm run lint` and `npm run build`.
+- Last green checks: `npm test`, `npm run lint`, and `npm run build`.
 - Local dev server was started at `http://127.0.0.1:5173/`, verified with
   `HTTP/1.1 200 OK`, and then stopped before handoff. It was started and
   verified again after moving to Codex.

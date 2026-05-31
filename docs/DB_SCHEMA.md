@@ -2,6 +2,11 @@
 
 This draft assumes Postgres and Supabase-style auth/RLS.
 
+Before turning this draft into migrations, review
+`docs/INGREDIENTS_TODO.md`. The current frontend ingredient fields are shaped by
+the static ice cream calculator dataset; not every nutrient or calculator field
+should necessarily become a required database column.
+
 ## Core Tables
 
 ```sql
@@ -106,4 +111,3 @@ create table calculation_snapshots (
 - Teachers can read assigned student recipes only within their school.
 
 Policies should be implemented before any client write flow is shipped.
-

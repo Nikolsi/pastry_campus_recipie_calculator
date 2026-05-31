@@ -2,11 +2,12 @@
 
 ## Current Gates
 
+- `npm test`
 - `npm run build`
 - `npm run lint`
 
-Last known result: both gates passed on 2026-05-31 after the feature component
-split.
+Last known result: all gates passed on 2026-05-31 after adding calculator unit
+tests.
 
 ## Browser QA Status
 
@@ -19,15 +20,24 @@ split.
   `sandbox-exec: execvp() of 'macos' failed` error. This appears unrelated to
   the app code.
 
-## Needed Tests
+## Current Tests
 
 - `normalizeTo1000` preserves ratios and returns 1000 g total.
 - `scaleToKg` normalizes first, then scales to target batch size.
+- `scaleToKg` clears grams for non-positive target kilograms.
 - `computeTotals` uses ingredient values per 100 g.
-- Unknown ingredients are reported or handled intentionally.
-- Validation ranges format PAC differently from percent metrics.
+- `computeTotals` skips unknown ingredient IDs intentionally.
+- `validateTotals` accepts a balanced helado profile.
+- `validateTotals` reports out-of-range helado metrics.
+- `validateTotals` applies sorbet-specific max rules.
+
+## Needed Tests
+
 - Recipe totals should make educational sense when the recipe is not exactly
   1000 g.
+- Ingredient selector should keep duplicate prevention when using IDs.
+- Mobile drawer interaction needs browser/e2e coverage once Browser or
+  Playwright is available.
 
 ## Manual Mobile Checks
 

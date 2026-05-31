@@ -16,6 +16,8 @@ calculators such as chocolate.
 
 - `npm run build` checks TypeScript and builds the Vite app.
 - `npm run lint` runs ESLint.
+- `npm test` compiles focused unit tests and runs them with Node's built-in
+  test runner.
 - `npm run dev` starts the local Vite dev server.
 - `npm run preview` serves a built bundle.
 
@@ -42,6 +44,5 @@ calculators such as chocolate.
 
 ## Verification
 
-Run `npm run build` and `npm run lint` after code changes. When calculator math
-changes, add or update focused tests once a test runner is introduced.
-
+Run `npm test`, `npm run build`, and `npm run lint` after code changes. When
+calculator math changes, add or update focused tests under `tests/`.
