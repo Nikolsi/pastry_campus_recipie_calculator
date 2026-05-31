@@ -1,6 +1,6 @@
 # Project Status
 
-Last updated: 2026-05-31
+Last updated: 2026-06-01
 
 ## Done
 
@@ -14,8 +14,8 @@ Last updated: 2026-05-31
 - Recipe line items now store stable `ingredientId` values instead of
   ingredient names.
 - Unit tests cover core calculation and validation behavior.
-- Product brand is now `MiseLab`; primary domain is `miselab.app` and contact
-  email is `info@miselab.app`.
+- Working product name is `PastryCampus Calculator` (custom school order);
+  broader platform vision lives in `docs/MISELAB.md`.
 - Basic PWA metadata and manifest are in place.
 - Component/profile-based domain types are in place for calculator modules,
   metric definitions, ingredient core data, and optional profiles.
@@ -28,29 +28,21 @@ Last updated: 2026-05-31
 
 ## Doing
 
-- Handoff to Codex with Browser plugin for visual QA.
-- Prepare the app structure for database-backed ingredients, accounts, and
-  saved recipes.
+- Student-friendly UI: traffic-light balance panel (green/yellow/red) for 4
+  key metrics (sugars, fat, solids, PAC) with explanations per direction.
+- Ingredient total row in recipe panel (red border if ≠ 1000 g, green if ok).
+- Phase 1: Supabase backend setup, DB migrations, custom ingredient entry.
 - Keep mobile and Telegram Mini App usage as first-class constraints.
-- Keep the MVP focused on culinary/pastry schools as the first customer
-  segment.
-- Keep the domain open to broader culinary calculators beyond pastry: dough,
-  pizza, sourdough, bakery formulas, nutrition, costing, and exports.
-- Preserve long-term AI/API optionality with stable IDs, metric codes,
-  calculator modules, and versioned snapshots. This is not MVP scope.
-- Preserve RecipeHub optionality: recipe versions, imports, collections/books,
-  access policies, monetization, and export artifacts. This is not MVP scope.
-- Track naming research. `RecipeLab` fits conceptually but appears risky due to
-  existing product/trademark signals; `Workbench` direction is worth exploring.
+- Keep the domain open to broader culinary calculators beyond pastry.
 
 ## Next
 
-1. Keep school MVP scope documented while architecture stays extensible.
-2. Review calculator module/profile model before database migrations.
-3. Review ingredient required/optional fields before database migrations.
-4. Add database migrations and seed current ingredients.
-5. Add Telegram Mini App auth handshake via a backend endpoint.
-6. Add browser/e2e coverage once Browser or Playwright is available.
+1. Set up Supabase project (Postgres + Auth + RLS).
+2. DB migrations: schools, ingredients, recipe types, recipes, recipe items.
+3. Seed current `ingredients.json` into the database.
+4. Add custom ingredient entry UI (school-scoped, stored in DB).
+5. Add Telegram Mini App auth handshake via backend endpoint.
+6. Review calculator module/profile model before additional migrations.
 
 ## Blocked
 

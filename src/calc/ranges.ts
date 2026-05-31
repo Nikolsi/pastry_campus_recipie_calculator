@@ -8,10 +8,14 @@ export type Rule =
     | { type: 'max'; max: number }
     | { type: 'target'; target: number; tolerance: number };
 
+export type TrafficLightColor = 'green' | 'yellow' | 'red';
+
 export interface ValidationCheck {
     key: string;
     label: string;
     ok: boolean;
+    color: TrafficLightColor;
+    direction: 'high' | 'low' | null;
     actual: string;
     expected: string;
 }
@@ -59,6 +63,32 @@ function formatValue(key: string, value: number): string {
         return value.toFixed(2);
     }
     return formatPercent(value);
+}
+
+function computeColorAndDirection(
+    value: number,
+    rule: Rule,
+): { color: TrafficLightColor; direction: 'high' | 'low' | null } {
+    switch (rule.type) {
+        case 'range': {
+            const buffer = (rule.max - rule.min) * 0.2;
+            if (value >= rule.min && value <= rule.max) return { color: 'green', direction: null };
+            if (value < rule.min) {
+                return { color: value >= rule.min - buffer ? 'yellow' : 'red', direction: 'low' };
+            }
+            return { color: value <= rule.max + buffer ? 'yellow' : 'red', direction: 'high' };
+        }
+        case 'max': {
+            if (value <= rule.max) return { color: 'green', direction: null };
+            return { color: value <= rule.max * 1.3 ? 'yellow' : 'red', direction: 'high' };
+        }
+        case 'target': {
+            const diff = Math.abs(value - rule.target);
+            if (diff <= rule.tolerance) return { color: 'green', direction: null };
+            const dir = value > rule.target ? 'high' : 'low';
+            return { color: diff <= rule.tolerance * 2 ? 'yellow' : 'red', direction: dir };
+        }
+    }
 }
 
 function checkRule(value: number, rule: Rule): { ok: boolean; expected: string } {
@@ -119,10 +149,14 @@ export function validateTotals(
             ? checkRuleForPAC(value, rule)
             : checkRule(value, rule);
 
+        const { color, direction } = computeColorAndDirection(value, rule);
+
         checks.push({
             key,
             label,
             ok,
+            color,
+            direction,
             actual: formatValue(key, value),
             expected,
         });

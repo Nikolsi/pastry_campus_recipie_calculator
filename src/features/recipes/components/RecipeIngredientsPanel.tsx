@@ -3,6 +3,7 @@ import { Trash2 } from "lucide-react";
 import type { Ingredient, LineItem } from "@/domain/types";
 import { IngredientCombobox } from "@/components/IngredientCombobox";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import {
   Card,
   CardContent,
@@ -17,19 +18,23 @@ import { normalizeRecipeNumberInput } from "@/features/recipes/lib/recipeLineIte
 interface RecipeIngredientsPanelProps {
   ingredients: Ingredient[];
   items: LineItem[];
+  totalG: number;
   getDisplayName: (ingredientId: number) => string;
   onAddIngredient: (ingredientId: number) => void;
   onUpdateGrams: (id: string, grams: number) => void;
   onRemoveItem: (id: string) => void;
+  onNormalizeTo1000: () => void;
 }
 
 export function RecipeIngredientsPanel({
   ingredients,
   items,
+  totalG,
   getDisplayName,
   onAddIngredient,
   onUpdateGrams,
   onRemoveItem,
+  onNormalizeTo1000,
 }: RecipeIngredientsPanelProps) {
   const updateFromInput = (id: string, rawValue: string) => {
     const normalized = normalizeRecipeNumberInput(rawValue);
@@ -145,6 +150,34 @@ export function RecipeIngredientsPanel({
                 </div>
               ))}
             </div>
+          </div>
+        )}
+        {items.length > 0 && (
+          <div className="space-y-2 pt-2">
+            <Separator />
+            <div
+              className={cn(
+                "flex items-center justify-between rounded-lg px-3 py-2 border-2 font-semibold",
+                Math.abs(totalG - 1000) < 1
+                  ? "border-emerald-400 bg-emerald-50/40"
+                  : "border-rose-400 bg-rose-50/40 text-rose-700",
+              )}
+            >
+              <span>ИТОГО</span>
+              <span className="tabular-nums text-lg">
+                {totalG.toFixed(0)} г
+              </span>
+            </div>
+            {Math.abs(totalG - 1000) >= 1 && (
+              <Button
+                variant="outline"
+                size="sm"
+                className="w-full"
+                onClick={onNormalizeTo1000}
+              >
+                Нормализовать до 1000 г
+              </Button>
+            )}
           </div>
         )}
       </CardContent>

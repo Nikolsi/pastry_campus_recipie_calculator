@@ -2,19 +2,16 @@ import { useState, useMemo } from "react";
 import "./App.css";
 import type { Ingredient, LineItem } from "./domain/types";
 import { ingredients } from "./data/ingredients";
-import { normalizeTo1000, scaleToKg, computeTotals } from "./calc/formulator";
+import { normalizeTo1000, computeTotals } from "./calc/formulator";
 import { validateTotals, type RecipeType } from "./calc/ranges";
 import { RecipeIngredientsPanel } from "@/features/recipes/components/RecipeIngredientsPanel";
-import { RecipeTools } from "@/features/recipes/components/RecipeTools";
 import { RecipeTypeSelector } from "@/features/recipes/components/RecipeTypeSelector";
-import { TotalsPanel } from "@/features/recipes/components/TotalsPanel";
 import { ValidationPanel } from "@/features/recipes/components/ValidationPanel";
 import { createRecipeLineItem } from "@/features/recipes/lib/recipeLineItems";
 
 function App() {
   const [recipeType, setRecipeType] = useState<RecipeType>("HELADO");
   const [items, setItems] = useState<LineItem[]>([]);
-  const [batchKg, setBatchKg] = useState<number>(1);
 
   const ingredientById = useMemo(() => {
     const map = new Map<number, Ingredient>();
@@ -63,12 +60,14 @@ function App() {
     return ing ? (ing.name_ru ?? ing.name) : `Ingredient #${ingredientId}`;
   };
 
+  const handleNormalizeTo1000 = () => setItems(normalizeTo1000(items));
+
   return (
     <div className="container mx-auto max-w-6xl p-4">
       <div className="mb-6">
-        <h1 className="text-4xl font-bold mb-2">MiseLab</h1>
+        <h1 className="text-4xl font-bold mb-2">PastryCampus Calculator</h1>
         <p className="text-muted-foreground">
-          Создавайте и оптимизируйте технические рецепты
+          Рассчитайте и проверьте баланс рецепта мороженого
         </p>
       </div>
 
@@ -82,31 +81,24 @@ function App() {
           <RecipeIngredientsPanel
             ingredients={ingredients}
             items={items}
+            totalG={totals.totalG}
             getDisplayName={getDisplayName}
             onAddIngredient={addIngredientById}
             onUpdateGrams={updateGrams}
             onRemoveItem={removeItem}
+            onNormalizeTo1000={handleNormalizeTo1000}
           />
         </div>
 
         <div className="space-y-4">
           <ValidationPanel
             itemCount={items.length}
-            totalG={totals.totalG}
             validation={validation}
+            tempServeC={totals.tempServeC}
           />
-
-          <TotalsPanel totals={totals} />
         </div>
       </div>
 
-      <RecipeTools
-        itemCount={items.length}
-        batchKg={batchKg}
-        onBatchKgChange={setBatchKg}
-        onNormalizeTo1000={() => setItems(normalizeTo1000(items))}
-        onApplyBatch={() => setItems(scaleToKg(items, batchKg))}
-      />
     </div>
   );
 }

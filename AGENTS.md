@@ -1,8 +1,13 @@
 # Agent Guide
 
-This repository contains a mobile-first recipe calculator for pastry schools.
-The current product focus is ice cream formulation, with room for future
-calculators such as chocolate.
+This repository contains **PastryCampus Calculator** — a mobile-first recipe
+calculator for pastry schools. The current product focus is ice cream
+formulation, with room for future calculators such as chocolate.
+
+**Brand note:** The working name is `PastryCampus Calculator` (custom school
+order). The broader platform concept is `MiseLab` — see `docs/MISELAB.md`.
+Keep `PastryCampus Calculator` as the product name in all UI and docs within
+this repo until the brand relationship is settled.
 
 ## Stack
 

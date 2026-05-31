@@ -1,16 +1,15 @@
-# MiseLab
+# PastryCampus Calculator
 
-MiseLab is a mobile-first culinary calculation workspace. The MVP starts with an
-ice cream and sorbet recipe calculator for culinary/pastry schools, while the
-architecture stays open to future calculator modules, technical cards, costing,
-nutrition, recipe imports, and RecipeHub-style workflows.
+Mobile-first ice cream recipe calculator for pastry schools. Students add
+ingredients, check the traffic-light balance panel, and learn why a recipe is
+balanced or not. See `docs/MISELAB.md` for the broader platform vision.
 
 ## Product Focus
 
-- First segment: culinary/pastry schools.
-- First calculator: ice cream and sorbet formulation.
-- Primary usage: mobile, Telegram, and PWA-friendly classroom flow.
-- Long-term direction: modular culinary recipe calculation platform.
+- Segment: culinary/pastry schools (custom order).
+- Calculator: ice cream and sorbet formulation.
+- Primary usage: mobile, Telegram Mini App, PWA classroom flow.
+- Architecture: open to future calculator modules and platform convergence.
 
 ## Stack
 
@@ -51,13 +50,9 @@ docs/                        product, architecture, QA, and handoff notes
 tests/                       focused unit tests
 ```
 
-## Contact
-
-- Product domain: `miselab.app`
-- Email: `info@miselab.app`
-
 ## Notes
 
 The current ingredient dataset is static and bundled with the frontend. Database,
-accounts, Telegram auth, saved recipes, and exports are planned next steps.
+accounts, Telegram auth, saved recipes, and exports are planned next steps
+(see `docs/ROADMAP.md`).
 

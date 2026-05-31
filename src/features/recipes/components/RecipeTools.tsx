@@ -1,4 +1,3 @@
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -14,7 +13,6 @@ interface RecipeToolsProps {
   itemCount: number;
   batchKg: number;
   onBatchKgChange: (batchKg: number) => void;
-  onNormalizeTo1000: () => void;
   onApplyBatch: () => void;
 }
 
@@ -22,33 +20,17 @@ export function RecipeTools({
   itemCount,
   batchKg,
   onBatchKgChange,
-  onNormalizeTo1000,
   onApplyBatch,
 }: RecipeToolsProps) {
   return (
-    <Card className="mt-4 border-amber-200 bg-amber-50">
+    <Card className="mt-4">
       <CardHeader className="pb-3">
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-          <CardTitle className="text-base sm:text-lg">
-            Экспериментальные инструменты
-          </CardTitle>
-          <Badge variant="secondary" className="w-fit">
-            Experimental
-          </Badge>
-        </div>
+        <CardTitle className="text-base sm:text-lg">Масштаб партии</CardTitle>
         <CardDescription>
-          Инструменты могут измениться в будущих версиях
+          Пересчитать рецепт под нужное количество килограммов
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-3 sm:flex-row sm:items-end">
-        <Button
-          onClick={onNormalizeTo1000}
-          variant="secondary"
-          disabled={itemCount === 0}
-        >
-          Нормализовать до 1000 г
-        </Button>
-
         <div className="flex gap-2 items-end">
           <div className="grid gap-1">
             <Label htmlFor="batchKg">Партия (кг)</Label>

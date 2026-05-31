@@ -1,7 +1,7 @@
 {
-  "name": "MiseLab",
-  "short_name": "MiseLab",
-  "description": "Mobile-first culinary calculation workspace for schools.",
+  "name": "PastryCampus Calculator",
+  "short_name": "PastryCampus",
+  "description": "Калькулятор рецептов мороженого для кондитерских школ.",
   "start_url": ".",
   "scope": ".",
   "display": "standalone",
