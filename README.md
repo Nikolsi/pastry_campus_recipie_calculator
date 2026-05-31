@@ -1,73 +1,63 @@
-# React + TypeScript + Vite
+# MiseLab
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+MiseLab is a mobile-first culinary calculation workspace. The MVP starts with an
+ice cream and sorbet recipe calculator for culinary/pastry schools, while the
+architecture stays open to future calculator modules, technical cards, costing,
+nutrition, recipe imports, and RecipeHub-style workflows.
 
-Currently, two official plugins are available:
+## Product Focus
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- First segment: culinary/pastry schools.
+- First calculator: ice cream and sorbet formulation.
+- Primary usage: mobile, Telegram, and PWA-friendly classroom flow.
+- Long-term direction: modular culinary recipe calculation platform.
 
-## React Compiler
+## Stack
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+- React 19
+- TypeScript
+- Vite
+- Tailwind CSS
+- shadcn-style UI primitives
+- Node built-in test runner for focused unit tests
 
-## Expanding the ESLint configuration
+## Commands
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
+npm test
+npm run lint
+npm run build
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+For local Browser/PWA checks:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run dev -- --host 127.0.0.1
 ```
+
+## Project Map
+
+```text
+src/
+  App.tsx                    recipe screen container
+  calc/                      pure calculator logic
+  components/                shared UI and ingredient selector
+  data/                      current static ingredient dataset
+  domain/                    shared domain types
+  features/recipes/          recipe UI panels and helpers
+docs/                        product, architecture, QA, and handoff notes
+tests/                       focused unit tests
+```
+
+## Contact
+
+- Product domain: `miselab.app`
+- Email: `info@miselab.app`
+
+## Notes
+
+The current ingredient dataset is static and bundled with the frontend. Database,
+accounts, Telegram auth, saved recipes, and exports are planned next steps.
+

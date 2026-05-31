@@ -9,6 +9,13 @@
 Last known result: all gates passed on 2026-05-31 after adding calculator unit
 tests.
 
+## Dependency Audit
+
+- `npm install --package-lock-only` reported 8 audit findings: 3 moderate and
+  5 high.
+- They were not fixed during the branding/PWA pass because `npm audit fix` may
+  change dependency versions beyond the requested scope.
+
 ## Browser QA Status
 
 - Local server was verified with `curl -I http://127.0.0.1:5173/`.

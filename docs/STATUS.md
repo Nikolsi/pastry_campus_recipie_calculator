@@ -14,6 +14,9 @@ Last updated: 2026-05-31
 - Recipe line items now store stable `ingredientId` values instead of
   ingredient names.
 - Unit tests cover core calculation and validation behavior.
+- Product brand is now `MiseLab`; primary domain is `miselab.app` and contact
+  email is `info@miselab.app`.
+- Basic PWA metadata and manifest are in place.
 - Current lint baseline passes.
 
 ## Doing
@@ -30,16 +33,17 @@ Last updated: 2026-05-31
   calculator modules, and versioned snapshots. This is not MVP scope.
 - Preserve RecipeHub optionality: recipe versions, imports, collections/books,
   access policies, monetization, and export artifacts. This is not MVP scope.
+- Track naming research. `RecipeLab` fits conceptually but appears risky due to
+  existing product/trademark signals; `Workbench` direction is worth exploring.
 
 ## Next
 
 1. Keep school MVP scope documented while architecture stays extensible.
 2. Review calculator module/profile model before database migrations.
 3. Review ingredient required/optional fields before database migrations.
-4. Add PWA manifest and app metadata.
-5. Add database migrations and seed current ingredients.
-6. Add Telegram Mini App auth handshake via a backend endpoint.
-7. Add browser/e2e coverage once Browser or Playwright is available.
+4. Add database migrations and seed current ingredients.
+5. Add Telegram Mini App auth handshake via a backend endpoint.
+6. Add browser/e2e coverage once Browser or Playwright is available.
 
 ## Blocked
 
@@ -62,3 +66,5 @@ Last updated: 2026-05-31
 - New foundation docs were added under `docs/`, plus `AGENTS.md`.
 - The next Codex Browser pass should run `npm run dev -- --host 127.0.0.1`,
   open `http://127.0.0.1:5173/`, and do a quick desktop/mobile smoke test.
+- `npm install --package-lock-only` reported 8 audit findings (3 moderate,
+  5 high). They were not fixed during the branding pass.

@@ -66,11 +66,9 @@ function App() {
   return (
     <div className="container mx-auto max-w-6xl p-4">
       <div className="mb-6">
-        <h1 className="text-4xl font-bold mb-2">
-          Pastry Campus Recipe Calculator
-        </h1>
+        <h1 className="text-4xl font-bold mb-2">MiseLab</h1>
         <p className="text-muted-foreground">
-          Создайте и оптимизируйте рецепты мороженого
+          Создавайте и оптимизируйте технические рецепты
         </p>
       </div>
 

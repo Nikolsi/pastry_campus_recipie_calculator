@@ -15,11 +15,11 @@ Never trust `initDataUnsafe` for authentication or authorization decisions.
 
 ## PWA
 
-1. Replace template title, language, favicon, and metadata.
-2. Add `manifest.webmanifest`.
-3. Add installable icons.
-4. Add `theme-color` and `apple-mobile-web-app-capable` metadata.
+1. Replace template title, language, favicon, and metadata. Done.
+2. Add `manifest.webmanifest`. Done.
+3. Add installable icons. Basic SVG icons are present; production PNG/maskable
+   assets can be added later.
+4. Add `theme-color` and `apple-mobile-web-app-capable` metadata. Done.
 5. Add a service worker only after the data-loading strategy is clear.
 6. Cache static shell and read-only ingredient data first.
 7. Avoid offline recipe writes until conflict handling is designed.
-
