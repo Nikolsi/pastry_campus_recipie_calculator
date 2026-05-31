@@ -17,6 +17,10 @@ Last updated: 2026-05-31
 - Product brand is now `MiseLab`; primary domain is `miselab.app` and contact
   email is `info@miselab.app`.
 - Basic PWA metadata and manifest are in place.
+- Component/profile-based domain types are in place for calculator modules,
+  metric definitions, ingredient core data, and optional profiles.
+- Current `Ingredient` remains a compatibility type for ice cream ingredients:
+  `IngredientCore & IceCreamProfile`.
 - Current lint baseline passes.
 
 ## Doing

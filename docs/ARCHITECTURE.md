@@ -53,6 +53,11 @@ browser storage.
 Future calculator modules should be introduced behind module boundaries instead
 of adding all possible fields to the global recipe or ingredient types.
 
+The frontend domain model now follows a lightweight component/profile approach:
+ingredient core identity is separate from profiles such as ice cream, nutrition,
+cost, dough, and chocolate. The current MVP `Ingredient` type remains a
+compatibility alias for `IngredientCore & IceCreamProfile`.
+
 The long-term API should also be machine-readable enough for AI services and
 external tools. See `docs/AI_API_VISION.md`; this is not MVP scope, but it
 reinforces the need for stable IDs, metric codes, module boundaries, and

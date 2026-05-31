@@ -45,6 +45,8 @@ tests.
 - Ingredient selector should keep duplicate prevention when using IDs.
 - Mobile drawer interaction needs browser/e2e coverage once Browser or
   Playwright is available.
+- Add tests for profile adapters once static ingredients are converted into
+  core + profile data.
 
 ## Manual Mobile Checks
 

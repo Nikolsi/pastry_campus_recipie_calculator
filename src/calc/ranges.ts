@@ -1,4 +1,5 @@
 import type { Totals } from '../domain/types';
+import { ICE_CREAM_METRICS } from '../domain/catalog.js';
 
 export type RecipeType = 'HELADO' | 'SORBETE';
 
@@ -44,16 +45,9 @@ export const DEFAULT_RULES: Record<RecipeType, Record<string, Rule>> = {
     },
 };
 
-const LABELS: Record<string, string> = {
-    sugarsPct: 'Сахара',
-    fatPct: 'Жиры',
-    solidsPct: 'Сухие вещества',
-    waterPct: 'Вода',
-    proteinPct: 'Белок',
-    lactosePct: 'Лактоза',
-    podPct: 'POD',
-    pac: 'PAC',
-};
+const LABELS = Object.fromEntries(
+    ICE_CREAM_METRICS.map((metric) => [metric.code, metric.label])
+);
 
 function formatPercent(value: number): string {
     return `${value.toFixed(2)}%`;

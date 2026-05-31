@@ -114,5 +114,6 @@ still adapt profile JSON into TypeScript objects.
 - Add seed transformation from `src/data/ingredients.json`.
 - Add tests for missing optional fields before relaxing frontend types.
 - Update `Ingredient` type to distinguish core identity from ice cream profile.
+  Initial frontend component/profile types are now in place.
 - Decide profile type names and which profile is required by the MVP ice cream
   calculator.
