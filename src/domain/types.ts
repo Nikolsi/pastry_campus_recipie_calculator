@@ -1,4 +1,4 @@
-export type EntityId = number;
+export type EntityId = string;
 
 export type CalculatorModuleCode =
     | 'ice_cream'
@@ -23,10 +23,9 @@ export interface LocalizedName {
 }
 
 export interface IngredientCore {
-    id: number;
+    id: EntityId;
     name: string;
     name_ru?: string;
-    name_es?: string;
     category?: string;
     scope?: IngredientScope;
     schoolId?: string;
@@ -110,7 +109,7 @@ export interface ComponentIngredient {
 
 export interface LineItem {
     id: string;
-    ingredientId: number;
+    ingredientId: EntityId;
     grams: number;
 }
 

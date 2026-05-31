@@ -19,8 +19,8 @@ interface RecipeIngredientsPanelProps {
   ingredients: Ingredient[];
   items: LineItem[];
   totalG: number;
-  getDisplayName: (ingredientId: number) => string;
-  onAddIngredient: (ingredientId: number) => void;
+  getDisplayName: (ingredientId: string) => string;
+  onAddIngredient: (ingredientId: string) => void;
   onUpdateGrams: (id: string, grams: number) => void;
   onRemoveItem: (id: string) => void;
   onNormalizeTo1000: () => void;

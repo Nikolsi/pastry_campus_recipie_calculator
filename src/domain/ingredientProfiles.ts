@@ -17,9 +17,6 @@ export function toIngredientCore(
   scope: IngredientScope = "system",
 ): IngredientCore {
   const names = [
-    ingredient.name_es
-      ? { locale: "es", value: ingredient.name_es }
-      : undefined,
     ingredient.name_ru
       ? { locale: "ru", value: ingredient.name_ru }
       : undefined,
@@ -28,7 +25,6 @@ export function toIngredientCore(
   return {
     id: ingredient.id,
     name: ingredient.name,
-    name_es: ingredient.name_es,
     name_ru: ingredient.name_ru,
     scope,
     names: names.length > 0 ? names : undefined,

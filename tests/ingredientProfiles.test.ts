@@ -12,9 +12,8 @@ import {
 import type { Ingredient } from "../src/domain/types.js";
 
 const ingredient: Ingredient = {
-  id: 42,
+  id: "42",
   name: "Leche entera",
-  name_es: "Leche entera",
   name_ru: "Цельное молоко",
   fat: 3.6,
   lactose: 4.6,
@@ -30,13 +29,11 @@ const ingredient: Ingredient = {
 test("toIngredientCore keeps identity, translations, and default scope", () => {
   const core = toIngredientCore(ingredient);
 
-  assert.equal(core.id, 42);
+  assert.equal(core.id, "42");
   assert.equal(core.name, "Leche entera");
-  assert.equal(core.name_es, "Leche entera");
   assert.equal(core.name_ru, "Цельное молоко");
   assert.equal(core.scope, "system");
   assert.deepEqual(core.names, [
-    { locale: "es", value: "Leche entera" },
     { locale: "ru", value: "Цельное молоко" },
   ]);
 });

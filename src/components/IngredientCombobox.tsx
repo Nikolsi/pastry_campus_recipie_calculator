@@ -20,9 +20,9 @@ import type { Ingredient } from "@/domain/types";
 
 interface IngredientComboboxProps {
   ingredients: Ingredient[];
-  onSelect: (ingredientId: number) => void;
+  onSelect: (ingredientId: string) => void;
   placeholder?: string;
-  addedIngredientIds?: number[];
+  addedIngredientIds?: string[];
 }
 
 function useIsMobile() {
@@ -82,14 +82,10 @@ export function IngredientCombobox({
   }, [ingredients, search]);
 
   const handleSelect = (currentValue: string) => {
-    const ingredientId = Number(currentValue);
-    if (!Number.isFinite(ingredientId)) {
-      return;
-    }
-
+    if (!currentValue) return;
     setValue(currentValue === value ? "" : currentValue);
     setOpen(false);
-    onSelect(ingredientId);
+    onSelect(currentValue);
     setSearch("");
   };
 
@@ -108,8 +104,6 @@ export function IngredientCombobox({
         <CommandGroup>
           {filteredIngredients.map((ingredient) => {
             const displayName = ingredient.name_ru ?? ingredient.name;
-            const showSpanishName =
-              ingredient.name_ru && ingredient.name !== ingredient.name_ru;
             const isAdded = addedIngredientIds.includes(ingredient.id);
 
             return (
@@ -118,27 +112,15 @@ export function IngredientCombobox({
                 value={String(ingredient.id)}
                 onSelect={handleSelect}
                 disabled={isAdded}
-                className={cn(
-                  "flex flex-col items-start",
-                  isAdded && "opacity-50 cursor-not-allowed",
-                )}
+                className={cn(isAdded && "opacity-50 cursor-not-allowed")}
               >
-                <div className="flex items-center w-full">
-                  <Check
-                    className={cn(
-                      "mr-2 h-4 w-4",
-                      isAdded ? "opacity-100" : "opacity-0",
-                    )}
-                  />
-                  <div className="flex-1">
-                    <div>{displayName}</div>
-                    {showSpanishName && (
-                      <div className="text-xs text-muted-foreground">
-                        {ingredient.name}
-                      </div>
-                    )}
-                  </div>
-                </div>
+                <Check
+                  className={cn(
+                    "mr-2 h-4 w-4",
+                    isAdded ? "opacity-100" : "opacity-0",
+                  )}
+                />
+                {displayName}
               </CommandItem>
             );
           })}

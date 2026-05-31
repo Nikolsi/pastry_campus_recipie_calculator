@@ -14,7 +14,21 @@ ingredientsData.forEach((ingredient, index) => {
     }
 });
 
-export const ingredients: Ingredient[] = ingredientsData;
+export const ingredients: Ingredient[] = ingredientsData.map((raw): Ingredient => ({
+    id: String(raw.id),
+    name: raw.name,
+    name_ru: raw.name_ru ?? undefined,
+    scope: 'system',
+    fat: raw.fat,
+    lactose: raw.lactose,
+    protein: raw.protein,
+    solids: raw.solids,
+    sugars: raw.sugars,
+    water: raw.water,
+    pod: raw.pod,
+    pac: raw.pac,
+    cocoa_nf: raw.cocoa_nf,
+}));
 
 export const componentIngredients = toComponentIngredients(ingredients);
 
@@ -22,6 +36,6 @@ export const ingredientByName = new Map<string, Ingredient>(
     ingredients.map((i) => [i.name, i])
 );
 
-export const ingredientById = new Map<number, Ingredient>(
+export const ingredientById = new Map<string, Ingredient>(
     ingredients.map((i) => [i.id, i])
 );
