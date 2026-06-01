@@ -29,6 +29,11 @@ collections/books, import jobs, access policies, and export artifacts. See
 `docs/RECIPE_HUB_VISION.md`; these should be separate from calculator-specific
 logic.
 
+Telegram-led school operations may add funnels, course products, cohorts,
+announcements, live events, and cohort chat access. These should be separate
+from calculator math and should grant access through entitlements rather than
+hard-coded frontend flags.
+
 The frontend currently exposes an adapter from static ice cream ingredients to
 core + profile records in `src/domain/ingredientProfiles.ts`. Use that as the
 starting point for database seed scripts.
@@ -165,6 +170,144 @@ create table ingredient_price_entries (
 );
 ```
 
+## Education, Funnel, And Access Tables
+
+These tables are not required for the first ingredient migration, but they
+document the likely direction for Telegram-led sales and school workflows.
+
+```sql
+create table courses (
+  id uuid primary key default gen_random_uuid(),
+  school_id uuid references schools(id),
+  slug text unique not null,
+  title text not null,
+  status text not null default 'draft'
+    check (status in ('draft', 'active', 'archived')),
+  metadata jsonb not null default '{}'::jsonb,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table products (
+  id uuid primary key default gen_random_uuid(),
+  school_id uuid references schools(id),
+  course_id uuid references courses(id),
+  code text unique not null,
+  title text not null,
+  product_type text not null
+    check (product_type in ('course', 'calculator_addon', 'export_pack', 'recipe_pack', 'consultation')),
+  status text not null default 'draft'
+    check (status in ('draft', 'active', 'archived')),
+  metadata jsonb not null default '{}'::jsonb,
+  created_at timestamptz not null default now()
+);
+
+create table lead_events (
+  id uuid primary key default gen_random_uuid(),
+  profile_id uuid references auth.users(id),
+  telegram_id bigint,
+  source text,
+  campaign text,
+  start_payload text,
+  event_type text not null,
+  metadata jsonb not null default '{}'::jsonb,
+  created_at timestamptz not null default now()
+);
+
+create table purchases (
+  id uuid primary key default gen_random_uuid(),
+  profile_id uuid not null references auth.users(id) on delete cascade,
+  product_id uuid not null references products(id),
+  provider text not null
+    check (provider in ('manual', 'website', 'telegram_stars')),
+  provider_payment_id text,
+  status text not null default 'pending'
+    check (status in ('pending', 'paid', 'refunded', 'cancelled')),
+  amount numeric,
+  currency text,
+  metadata jsonb not null default '{}'::jsonb,
+  created_at timestamptz not null default now(),
+  paid_at timestamptz
+);
+
+create table entitlements (
+  id uuid primary key default gen_random_uuid(),
+  profile_id uuid not null references auth.users(id) on delete cascade,
+  product_id uuid references products(id),
+  course_id uuid references courses(id),
+  code text not null,
+  source text not null default 'manual'
+    check (source in ('manual', 'purchase', 'school_grant', 'cohort_enrollment')),
+  starts_at timestamptz,
+  expires_at timestamptz,
+  metadata jsonb not null default '{}'::jsonb,
+  created_at timestamptz not null default now(),
+  unique (profile_id, code)
+);
+
+create table course_cohorts (
+  id uuid primary key default gen_random_uuid(),
+  course_id uuid not null references courses(id) on delete cascade,
+  title text not null,
+  starts_at timestamptz,
+  ends_at timestamptz,
+  curator_profile_id uuid references auth.users(id),
+  metadata jsonb not null default '{}'::jsonb,
+  created_at timestamptz not null default now()
+);
+
+create table cohort_enrollments (
+  id uuid primary key default gen_random_uuid(),
+  cohort_id uuid not null references course_cohorts(id) on delete cascade,
+  profile_id uuid not null references auth.users(id) on delete cascade,
+  status text not null default 'active'
+    check (status in ('active', 'paused', 'completed', 'cancelled')),
+  purchase_id uuid references purchases(id),
+  created_at timestamptz not null default now(),
+  unique (cohort_id, profile_id)
+);
+
+create table cohort_chats (
+  id uuid primary key default gen_random_uuid(),
+  cohort_id uuid not null references course_cohorts(id) on delete cascade,
+  telegram_chat_id bigint not null,
+  chat_type text not null
+    check (chat_type in ('group', 'supergroup', 'channel')),
+  purpose text not null default 'community'
+    check (purpose in ('community', 'curator_support', 'announcements', 'live_stream')),
+  invite_link text,
+  requires_join_request boolean not null default true,
+  created_at timestamptz not null default now()
+);
+
+create table live_events (
+  id uuid primary key default gen_random_uuid(),
+  course_id uuid references courses(id),
+  cohort_id uuid references course_cohorts(id),
+  title text not null,
+  starts_at timestamptz not null,
+  join_url text,
+  telegram_chat_id bigint,
+  metadata jsonb not null default '{}'::jsonb,
+  created_at timestamptz not null default now()
+);
+
+create table announcements (
+  id uuid primary key default gen_random_uuid(),
+  school_id uuid references schools(id),
+  course_id uuid references courses(id),
+  cohort_id uuid references course_cohorts(id),
+  title text not null,
+  body text not null,
+  status text not null default 'draft'
+    check (status in ('draft', 'scheduled', 'sent', 'cancelled')),
+  scheduled_at timestamptz,
+  sent_at timestamptz,
+  metadata jsonb not null default '{}'::jsonb,
+  created_at timestamptz not null default now()
+);
+```
+
 ## RLS Policy Intent
 
 - System ingredients are readable by authenticated users.
@@ -173,5 +316,12 @@ create table ingredient_price_entries (
 - Recipes are writable by their owner.
 - School-visible recipes are readable by school members.
 - Teachers can read assigned student recipes only within their school.
+- Course/cohort data is readable by enrolled students and school staff.
+- Purchases are readable by the buyer and school admins.
+- Entitlements are readable by the owner and by server-side access checks.
+- Lead attribution and payment metadata should not be exposed to students unless
+  explicitly needed in the UI.
+- Cohort chat invite links should be returned only to enrolled students or
+  admins, preferably through backend functions that can verify current access.
 
 Policies should be implemented before any client write flow is shipped.

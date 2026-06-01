@@ -30,6 +30,15 @@
 
 ## Phase 3: Telegram And PWA
 
+- Add a minimal Telegram bot webhook/backend, preferably as a managed function
+  before considering a VPS.
+- Keep the frontend, bot functions, database migrations, and shared domain code
+  in this repository until there is a real ownership or deployment reason to
+  split them.
+- Implement `/start`, `/calculator`, `/courses`, `/recipes`, and `/support` so
+  the bot is more than a launcher button.
+- Track Telegram deep-link campaign payloads for Instagram-to-bot funnels.
+- Prepare cohort chat invite/join-request automation for paid students.
 - Add Telegram Mini App bootstrap and theme support.
 - Validate Telegram `initData` on the backend before trusting user identity.
 - Add PWA manifest, installable icons, and safe-area-aware mobile layout.

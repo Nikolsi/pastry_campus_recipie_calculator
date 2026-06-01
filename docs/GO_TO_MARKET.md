@@ -21,6 +21,17 @@ Primary MVP customer:
 - Teachers who need students to calculate and understand recipes.
 - Students who need a mobile-first tool from Telegram or PWA.
 
+The first buyer workflow is likely Telegram-led rather than website-led. Course
+sales, course updates, live stream announcements, support, and curator
+communication already happen through Telegram manually, so the product should
+automate and structure that existing behavior before assuming a full course
+website becomes the main channel.
+
+Likely acquisition may also be Telegram-first: a person sees an Instagram story,
+ad, or post, opens a Telegram deep link, buys or requests a course in the bot,
+then gets assigned to a cohort and receives the right course chats, curator
+support, live stream reminders, and calculator access.
+
 ## MVP Product Promise
 
 Help schools teach recipe formulation by giving students a mobile calculator
@@ -40,13 +51,16 @@ Prioritize:
 1. Ice cream calculator quality.
 2. Mobile/Telegram/PWA classroom flow.
 3. Accounts, school membership, and saved recipes.
-4. Technical card/export basics.
-5. Teacher/student workflows.
+4. Telegram bot flows for course access, announcements, support, and live
+   stream reminders.
+5. Technical card/export basics.
+6. Teacher/student workflows.
 
 Defer:
 
 - Public RecipeHub.
 - Paid creator accounts.
+- Full course website/LMS unless the customer explicitly needs it.
 - Public API for AI services.
 - Multi-domain culinary calculators beyond the first proof.
 
@@ -59,4 +73,3 @@ After school MVP works:
 3. Add broader culinary modules.
 4. Add creator/RecipeHub features.
 5. Add public/API/AI-facing capabilities.
-
